@@ -3,5 +3,5 @@
 <!-- SYSTEMS:START -->
 | # | System | Level | Topics |
 | --- | --- | --- | --- |
-| — | _The first system is being prepared._ | — | — |
+| 1 | [Design a URL Shortener](systems/url-shortener/README.md) | Beginner | [Caching, Unique identifiers, Replication, Idempotency, Abuse prevention] |
 <!-- SYSTEMS:END -->
