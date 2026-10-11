@@ -1,0 +1,79 @@
+name: Update systems index
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "systems/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build the published-systems index
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          readme = Path("README.md")
+          source = readme.read_text()
+          if "<!-- SYSTEMS:START -->" not in source or "<!-- SYSTEMS:END -->" not in source:
+              raise SystemExit("README index markers are missing")
+
+          def metadata(article: Path) -> dict[str, str]:
+              match = re.match(r"^---\s*\n(.*?)\n---\s*\n", article.read_text(), re.DOTALL)
+              if not match:
+                  return {}
+              return {
+                  key: value.strip().strip('"\\\'')
+                  for key, value in re.findall(r"^([a-zA-Z][\w-]*):\s*(.+)$", match.group(1), re.MULTILINE)
+              }
+
+          rows = ["| # | System | Level | Topics |", "| --- | --- | --- | --- |"]
+          articles = sorted(Path("systems").glob("*/README.md"))
+          published = []
+          for article in articles:
+              data = metadata(article)
+              if {"title", "level", "topics"} <= data.keys():
+                  published.append((article, data))
+
+          for position, (article, data) in enumerate(published, start=1):
+              title = data["title"].replace("|", "\\|")
+              level = data["level"].replace("|", "\\|")
+              topics = data["topics"].replace("|", "\\|")
+              rows.append(f"| {position} | [{title}]({article.as_posix()}) | {level} | {topics} |")
+
+          if not published:
+              rows.append("| — | _The first system is being prepared._ | — | — |")
+
+          table = "\n".join(rows)
+          updated = re.sub(
+              r"<!-- SYSTEMS:START -->.*?<!-- SYSTEMS:END -->",
+              "<!-- SYSTEMS:START -->\n" + table + "\n<!-- SYSTEMS:END -->",
+              source,
+              flags=re.DOTALL,
+          )
+          readme.write_text(updated)
+          PY
+
+      - name: Commit index when it changes
+        run: |
+          if git diff --quiet -- README.md; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: update systems index"
+          git push
