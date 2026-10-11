@@ -1,4 +1,4 @@
-# Systems Simplified turns the systems behind the internet into clear, visual lessons—from first principles to production-scale trade-offs.
+# System Design for absolute beginners.
 
 <!-- SYSTEMS:START -->
 | # | System | Level | Topics |
