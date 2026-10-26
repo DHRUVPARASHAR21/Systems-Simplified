@@ -11,5 +11,6 @@
 | 6 | [Design Pastebin](systems/pastebin/README.md) | Intermediate | [Object storage, Authorization, Idempotency, Caching, Recovery] |
 | 7 | [Design a Rate Limiter](systems/rate-limiter/README.md) | Intermediate | [Token buckets, Atomic operations, Partitioning, Overload protection, Failure policies] |
 | 8 | [Design a URL Shortener](systems/url-shortener/README.md) | Beginner | [Caching, Unique identifiers, Replication, Idempotency, Abuse prevention] |
-| 9 | [Design a Web Crawler](systems/web-crawler/README.md) | Intermediate | [Scheduling, Partitioning, Politeness, Deduplication, Recovery] |
+| 9 | [Design Video Streaming](systems/video-streaming/README.md) | Intermediate | [Adaptive streaming, Media pipelines, CDN, Idempotency, Recovery] |
+| 10 | [Design a Web Crawler](systems/web-crawler/README.md) | Intermediate | [Scheduling, Partitioning, Politeness, Deduplication, Recovery] |
 <!-- SYSTEMS:END -->
