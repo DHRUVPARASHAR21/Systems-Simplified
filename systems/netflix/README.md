@@ -70,7 +70,7 @@ These are targets for named device/network test cohorts and load tests, not meas
 | Playback admission | Under 400 ms at p95, excluding device license exchange | Permission must be fast without losing the stream limit |
 | Watching experience | First decoded frame under 3 seconds; rebuffer time below 1% on a defined broadband cohort | Measure the player, not just API responses |
 | Permission availability | 99.95% monthly successful eligible admissions and renewals | Report separately from discovery and CDN availability |
-| Admission correctness | At most the configured number of unexpired slot reservations | This is not a guarantee about the number of physical people or screens |
+| Admission correctness | Admit a new session only when live holds are below the current plan limit | Plan reductions drain old grants; reservations do not prove the number of people or screens |
 | Revocation | Defined new-fetch bound under stated freshness and clock assumptions | Avoid an impossible instant-recall promise |
 | Recovery | Tested zone failover and regional disaster recovery | Data-loss exposure depends on replication and promotion policy |
 
